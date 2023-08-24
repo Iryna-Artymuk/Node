@@ -39,7 +39,7 @@ const readFile= async()=>{
     console.log('buffer: ',  buffer);
 }
 
-// readFile()
+readFile()
 
 // ---- add File-----
 
