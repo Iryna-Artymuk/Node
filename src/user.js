@@ -1,4 +1,4 @@
-const  usersName=["Iryna","Tamila","Lena"]
+const  usersName=["Iryna Artymuk","Tamila","Lena"]
 const  usersAge=["35","28","39"]
   
 const users={
