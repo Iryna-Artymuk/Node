@@ -1,9 +1,12 @@
 const books= require("./books")
 // експортує по дефолту з файлу шndex в папці books
 // тут буде обєкт 
-console.log(' books: ',  books);
+// console.log(' books: ',  books);
 // console.log(__dirname)
+const yargs = require("yargs");
+const {hideBin} = require("yargs/helpers");
 
+//  
 const invokeActions= async({action,id,title,author})=>{
 
     switch (action) {
@@ -17,9 +20,44 @@ const invokeActions= async({action,id,title,author})=>{
             case "addBook":
                 const newBook=await books.addBook({title,author})
                 return  console.log('newBook: ', newBook);
+            case "deleteBook":
+                const deleteBook=await books.deleteById(id)
+               
+                return  console.log('deleteBook: ', deleteBook);
+                default: console.log("unknown action");
     }
 }
 
-invokeActions({action:"read"})
-// invokeActions({action:"getBookById",id:"dkJSszfrRVtLVR_MfRqcu"})
+// invokeActions({action:"read"})
+// invokeActions({action:"getBookById",id:"dkJSszfrRVtLVR_MfRqcu"}) 
 // invokeActions({action:"addBook",title:"qqqq",author:"wwww"} )
+// invokeActions({action:"deleteBook",id:"smpQSUoQE23UoqJyi9S9J"} )
+
+// ----------------process.argv---------------
+
+// console.log("process.argv)",process.argv);
+// const index= process.argv.indexOf("--action")
+// console.log('index: ', index);
+// if(index!== -1){
+//     const action =process.argv[index+1]
+//     console.log('action : ', action );
+//     invokeActions({action})
+
+// }
+
+
+// ----------yargs-----------
+const arr = hideBin(process.argv);
+console.log('process.argv: ', process.argv);
+
+console.log('arr : ', arr );
+
+// const yargsObj=yargs(arr)
+// console.log('yargsObj: ', yargsObj.argv);
+const{argv}=yargs(arr)
+console.log('argv: ', argv);
+
+
+// yargs перетворює цифри в рядках на числа якщо це  Id то перед тим як його пердати в функцію треба привести до рядка
+
+invokeActions(argv)

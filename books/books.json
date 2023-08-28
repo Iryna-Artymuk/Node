@@ -1,20 +1,5 @@
 [
   {
-    "id": "1",
-    "title": "Eloquent JavaScript, Third Edition",
-    "author": "Marijn Haverbeke"
-  },
-  {
-    "id": "YxhM4QDxPeA3SmPHcEZPJ",
-    "title": "Practical Modern JavaScript",
-    "author": "Nicolas Bevacqua"
-  },
-  {
-    "id": "zCd_RioNMOBaQwAXnc8Px",
-    "title": "Understanding ECMAScript 6",
-    "author": "Nicholas C. Zakas"
-  },
-  {
     "id": "ck89qe3HriUDHe09TBoJ8",
     "title": "Speaking JavaScript",
     "author": "Axel Rauschmayer"
@@ -43,26 +28,6 @@
     "id": "iNfpY-gJv2CWVQ3s9Cecg",
     "title": "qqqq",
     "author": "wwww"
-  },
-  {
-    "id": "MFxJRU-XrkUngzv_mXQc4",
-    "title": "qqqq",
-    "author": "wwww"
-  },
-  {
-    "id": "StGsPpIECR9NOuWy_AGJu",
-    "title": "qqqq",
-    "author": "wwww"
-  },
-  {
-    "id": "v4IN2o2YY03I-8jg7OjEu",
-    "title": "qqqq",
-    "author": "wwww"
-  },
-  {
-    "id": "VxwkGJaGOYgGJvE9EGHxD",
-    "title": "qqqq",
-    "author": "wwww"
   }
-  
+ 
 ]
