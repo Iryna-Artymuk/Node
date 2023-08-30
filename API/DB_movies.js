@@ -1,4 +1,4 @@
-export default [
+module.exports =[
   {
     "id": "u9kgwNWGi3uUUwh0b8V49",
     "title": "Avatar",
