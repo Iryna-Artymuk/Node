@@ -47,17 +47,49 @@ const invokeActions= async({action,id,title,author})=>{
 
 
 // ----------yargs-----------
-const arr = hideBin(process.argv);
-console.log('process.argv: ', process.argv);
+// const arr = hideBin(process.argv);
+// console.log('process.argv: ', process.argv);
 
-console.log('arr : ', arr );
+// console.log('arr : ', arr );
 
 // const yargsObj=yargs(arr)
 // console.log('yargsObj: ', yargsObj.argv);
-const{argv}=yargs(arr)
-console.log('argv: ', argv);
+// const{argv}=yargs(arr)
+// console.log('argv: ', argv);
 
 
 // yargs перетворює цифри в рядках на числа якщо це  Id то перед тим як його пердати в функцію треба привести до рядка
 
-invokeActions(argv)
+// invokeActions(argv)
+// const path = require("path");
+// const booksPath = path.join(__dirname,"books", "books.json");
+// console.log(' booksPath: ',  booksPath);
+
+
+// ---comander---
+const program = require("commander");
+
+
+// -a скорочена версія команди --action 
+program 
+.option(
+    "-a, --action <type>" 
+)
+.option(
+    "--id <type>" 
+)
+.option(
+    " -t, --title <type>" 
+)
+.option(
+    "-au, --author  <type>" 
+)
+
+// за замовчуванням бере глобальну змінну process.argv яка є масивом елементами якого є те що ми ввкли в командному рядку 
+program.parse()
+
+const userAction = program.opts()
+console.log(' userAction: ',  userAction);
+
+
+invokeActions(userAction)
