@@ -1,6 +1,8 @@
 const express = require('express');
 const cors = require('cors');
+const moviesRouter = require("./routes/api/movies_api");
 
+// console.log('moviesRouter : ', moviesRouter);
 const app = express(); // app - веб-сервер
 
 app.use(cors());
@@ -15,6 +17,9 @@ const cors = options => {
 }
 */
 // app.use(corsMiddleware);
+// API
+app.use("/api/movies",moviesRouter )
+
 
 // ---Middleware error page--
 app.use((req, res) => {
