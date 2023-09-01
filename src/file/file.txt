@@ -1,1 +1,0 @@
- React.js + Redux + Noda.js can change my life and i can live betterczcz
