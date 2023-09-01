@@ -11,7 +11,16 @@ const moviesRouter = express.Router();
 
 
 moviesRouter.get("/", async(req, res, next)=> {
-     
+// moviesService.getAllMovies робить запит до бази даних якщо запит  успішний в result запишеться відповідь список фільмів 
+,//res.json(result) відправляє відповідь на фронтенд 
+    
+    try {
+        const result = await moviesService.getAllMovies();
+        res.json(result);
+    }
+    catch(error) {
+        next(error);
+    }
 })
 
 moviesRouter.get("/:id", async(req, res, next)=> {
@@ -30,4 +39,6 @@ moviesRouter.delete("/:id", async(req, res, next)=> {
     
 })
 
-export default moviesRouter;
+export default moviesRouter; 
+// імпортуєм в app.js і викорстовуєм в midlewear  app.use("/api/movies", moviesRouter);
+// якщо запит на адресу /api/movie функції обробники взяти з обєкту moviesRouter
