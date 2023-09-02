@@ -1,5 +1,5 @@
 import express from 'express';
-import Joi from 'joi';
+import Joi from 'joi'; // бібліотека валідації
 
 import moviesService from '../../model/movies/movies.js'; //обєкт методами якого є функції які роблять запит до бази  даних  у нашому випадку це покищо movies.json
 
@@ -7,6 +7,16 @@ import { HttpError } from '../../helpers/index.js';
 
 const moviesRouter = express.Router(); // створює роутер
 
+// -----------------схема валідації----------------
+
+const movieAddSchema = Joi.object({
+  title: Joi.string().required().messages({
+    'any.required': `check again  if you  added   movie name `,
+  }),
+  director: Joi.string().required().messages({
+    'any.required': `check again  if you  added  directot `,
+  }),
+});
 moviesRouter.get('/', async (req, res, next) => {
   // moviesService.getAllMovies робить запит до бази даних якщо запит  успішний в result запишеться відповідь список фільмів
   //res.json(result) відправляє відповідь на фронтенд
@@ -80,6 +90,12 @@ moviesRouter.post('/', async (req, res, next) => {
 
   // дані які пердаються з фрогтенду придодять в req.body
   try {
+    const validateResult = movieAddSchema.validate(req.body);
+    const { error } = validateResult;
+
+    if (error) throw HttpError(400, error.message);
+    // якщо не буде всіх даних  error === true спрацює HttpError(400, validateResult.messages) і код перерветься спрацює функція обробки помилок
+    //  error.message буде message з схеми валідації
     const result = await moviesService.addMovie(req.body);
 
     if (!result) {
@@ -88,8 +104,10 @@ moviesRouter.post('/', async (req, res, next) => {
         `обєкт з id:${id} не знайдено перевірте чи правильний id `
       );
     }
-
-    res.json(result);
+    // перед тим як передавати дані в базу треба перевірити чи обєкт який ми передаєм має всі заповнені поля
+    // найчастіше використовується бібліотека joi
+    // обовязково треба передат на фронтенд статус запиту якщо щось успішно додано це 201 статус
+    res.status(201).json(result);
   } catch (error) {
     next(error);
   }
