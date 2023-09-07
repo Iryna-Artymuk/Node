@@ -1,0 +1,1 @@
+ export const DB_HOST='mongodb+srv://Ira_Art:6PfXcX0yndb6EXh4@cluster0.mftd0fj.mongodb.net/my_movies?retryWrites=true&w=majority'
