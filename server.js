@@ -1,7 +1,7 @@
 import app from './app.js';
 import mongoose from 'mongoose'; // імпортуєм монгус для підключення до бази даних
-const DB_HOST =
-  'mongodb+srv://Ira_Art:6PfXcX0yndb6EXh4@cluster0.mftd0fj.mongodb.net/my_movies?retryWrites=true&w=majority';
+
+import{DB_HOST} from "./config.js"
 
 // треба пердати строку підключення до бази  іі взяти треба в базі даних вкладка connect dreivers
 
@@ -9,6 +9,11 @@ const DB_HOST =
 
 //mongoose.connect(DB_HOST) повертає проміс тому щоб не запускати сервер коли підключення до бази не успішне викорисовуємо then  catch
 
+// під час деплою на сервері де буде деплоїтись проект бекенду треба в process.env (глобальний обєкт )сервера додати шлях підключення до бази
+// в Environment Variables треба додати ключ  DB_HOST і значення строка підключення
+// process.env.DB_HOST
+process.env[DB_HOST]
+// const { DB_HOST } = process.env;
 mongoose
   .connect(DB_HOST)
   .then(() =>
@@ -21,4 +26,5 @@ mongoose
     process.exit(1); // глобальний обєкт який закриває всі запущені процеси
   });
 
-console.log(process.env); // глобальний обєкт node.js
+// console.log(process.env); // глобальний обєкт node.js
+ console.log(process.env.DB_HOST); // глобальний обєкт node.js
