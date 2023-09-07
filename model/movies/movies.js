@@ -1,63 +1,18 @@
-import fs from "fs/promises";
-import path from "path";
-import { nanoid } from "nanoid";
+// щоб mongoose міг отримати дані з бази даних йому потрібна модель і схема
+// схема це опис обєкту в базі
+//модель це клас у якого є методи для роботи з базою
 
-const moviesPath = path.resolve("model", "movies", "movies.json");
-
-const updateMovies = movies => fs.writeFile(moviesPath, JSON.stringify(movies, null, 2));
-
- const getAllMovies = async () => {
-    const data = await fs.readFile(moviesPath);
-    return JSON.parse(data);
-}
-
-const getMovieById = async (id) => {
-    const movies = await getAllMovies();
-    const result = movies.find(item => item.id === id);
-    return result || null;
-}
-
- const addMovie = async ({ title, director }) => {
-    const movies = await getAllMovies();
-    const newMovie = {
-        id: nanoid(),
-        title,
-        director,
-    };
-    movies.push(newMovie);
-    await updateMovies(movies);
-    return newMovie;
-}
-
- const updateMovieById = async (id, data) => {
-    const movies = await getAllMovies();
-    const index = movies.findIndex(item => item.id === id);
-    if (index === -1) {
-        return null;
-    }
-    movies[index] = {id, ...data};
-    await updateMovies(movies);
-    return movies[index];
-}
-
-const deleteMovieById = async (id) => {
-    const movies = await getAllMovies();
-    const index = movies.findIndex(item => item.id === id);
-    if (index === -1) {
-        return null;
-    }
-    const [result] = movies.splice(index, 1);
-    await updateMovies(movies);
-    return result;
-}
+import { Schema, model } from 'mongoose';
+// ------------create schema ------------
+const movieSchema = new Schems({
+  title: String,
+  director: String,
+});
 
 
+// створюєм екземпляр класу йому треба передати назву колекції в однині з якою буде працювати цей екземпляр і створену схему 
+// експортуєм його для використання в контролерах 
 
+const Movie = model("movie",movieSchema )
 
-export default {
-    getAllMovies,
-    getMovieById,
-    addMovie,
-    updateMovieById,
-    deleteMovieById,
-}
+export default  Movie 

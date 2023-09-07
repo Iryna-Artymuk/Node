@@ -3,7 +3,7 @@ import express from 'express';
 const moviesRouter = express.Router(); // створює роутер
 import movieСontrolers from '../../controlers/movie_controlers.js';
 
-moviesRouter.get('/',movieСontrolers .getAllMovies);
+moviesRouter.get('/',movieСontrolers.getAllMovies);
 
 // moviesRouter.get('/:id', async (req, res, next) => {
 //   //всі динамічні параметри запиту зберігаються в змінній reg.params
