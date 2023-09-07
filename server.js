@@ -5,15 +5,20 @@ const DB_HOST =
 
 // треба пердати строку підключення до бази  іі взяти треба в базі даних вкладка connect dreivers
 
-// ОБОВЯЗКОВО ТРЕБА ВКАЗАТИ НАЗВУ БАЗИ ДО ЯКОЇ ТРЕБА ПІДКЛЮЧИТИСЬ  В ЦЬОМУ ВИПАДКУ ЦЕ my_movies  
+// ОБОВЯЗКОВО ТРЕБА ВКАЗАТИ НАЗВУ БАЗИ ДО ЯКОЇ ТРЕБА ПІДКЛЮЧИТИСЬ  В ЦЬОМУ ВИПАДКУ ЦЕ my_movies
 
-//mongoose.connect(DB_HOST) повертає проміс тому щоб не запускати сервер коли підключення до бази не успішне викорисовуємо then  catch 
+//mongoose.connect(DB_HOST) повертає проміс тому щоб не запускати сервер коли підключення до бази не успішне викорисовуємо then  catch
 
-mongoose.connect(DB_HOST)
-.then(()=> app.listen(4000, () =>console.log('Server running sucsesfully connect to DB')))
-  .catch((error)=>{  
-  console.log('can not connect to data bace ')
-  process.exit(1); // глобальний обєкт який закриває всі запущені процеси 
-})
+mongoose
+  .connect(DB_HOST)
+  .then(() =>
+    app.listen(4000, () =>
+      console.log('Server running sucsesfully connect to DB')
+    )
+  )
+  .catch(error => {
+    console.log('can not connect to data bace ');
+    process.exit(1); // глобальний обєкт який закриває всі запущені процеси
+  });
 
-
+console.log(process.env); // глобальний обєкт node.js
