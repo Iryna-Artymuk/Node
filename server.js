@@ -27,4 +27,4 @@ mongoose
     process.exit(1); // глобальний обєкт який закриває всі запущені процеси
   });
 
-console.log(process.env.DB_HOST); // глобальний обєкт node.js
+// console.log(process.env.DB_HOST); // глобальний обєкт node.js

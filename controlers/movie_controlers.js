@@ -25,12 +25,12 @@ const getAllMovies = async (req, res, next) => {
 const addMovie = async (req, res, next) => {
   console.log('req.body: ', req.body);
 
-  // дані які пердаються з фрогтенду придодять в req.body
+  // дані які пердаються з фрогтенду придодять в req.body ми їх перевіряєм з доп joi
   try {
-    const validateResult = movieAddSchema.validate(req.body);
-    const { error } = validateResult;
+    // const validateResult = movieAddSchema.validate(req.body);
+    // const { error } = validateResult;
 
-    if (error) throw HttpError(400, error.message);
+    // if (error) throw HttpError(400, error.message);
     // якщо не буде всіх даних  error === true спрацює HttpError(400, validateResult.messages) і код перерветься спрацює функція обробки помилок
     //  error.message буде message з схеми валідації
     const result = await Movie.create (req.body);
