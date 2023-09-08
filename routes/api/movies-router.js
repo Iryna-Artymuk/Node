@@ -3,7 +3,7 @@ import express from 'express';
 const moviesRouter = express.Router(); // створює роутер
 import movieСontrolers from '../../controlers/movie_controlers.js';
 
-moviesRouter.get('/',movieСontrolers.getAllMovies);
+moviesRouter.get('/', movieСontrolers.getAllMovies);
 
 // moviesRouter.get('/:id', async (req, res, next) => {
 //   //всі динамічні параметри запиту зберігаються в змінній reg.params
@@ -53,33 +53,7 @@ moviesRouter.get('/',movieСontrolers.getAllMovies);
 //   }
 // });
 
-// moviesRouter.post('/', async (req, res, next) => {
-//   console.log('req.body: ', req.body);
-
-//   // дані які пердаються з фрогтенду придодять в req.body
-//   try {
-//     const validateResult = movieAddSchema.validate(req.body);
-//     const { error } = validateResult;
-
-//     if (error) throw HttpError(400, error.message);
-//     // якщо не буде всіх даних  error === true спрацює HttpError(400, validateResult.messages) і код перерветься спрацює функція обробки помилок
-//     //  error.message буде message з схеми валідації
-//     const result = await moviesService.addMovie(req.body);
-
-//     if (!result) {
-//       throw HttpError(
-//         404,
-//         `обєкт з id:${id} не знайдено перевірте чи правильний id `
-//       );
-//     }
-//     // перед тим як передавати дані в базу треба перевірити чи обєкт який ми передаєм має всі заповнені поля
-//     // найчастіше використовується бібліотека joi
-//     // обовязково треба передат на фронтенд статус запиту якщо щось успішно додано це 201 статус
-//     res.status(201).json(result);
-//   } catch (error) {
-//     next(error);
-//   }
-// });
+moviesRouter.post('/', movieСontrolers.addMovie);
 
 // moviesRouter.put('/:id', async (req, res, next) => {
 //   // ПЕРЕВІРЯЄМ ТІЛО ЗАПИТУ ЧИ ВІДПОВІДАЄ СХЕМІ ВАЛАДАЦІЇ
