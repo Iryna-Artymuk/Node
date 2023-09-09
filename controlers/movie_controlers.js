@@ -1,39 +1,11 @@
-import Joi from 'joi'; // бібліотека валідації
 import Movie from '../model/movies/movies.js';
 
 import { HttpError } from '../helpers/index.js';
 
-//  ----Joi schema to check data from frontend
-// it is must match mongoose schema
-const movieAddSchema = Joi.object({
-  title: Joi.string().required().messages({
-    'any.required': `check again  if you  added   movie name `,
-  }),
-  director: Joi.string().required().messages({
-    'any.required': `frontend validation error check again  if you  added  director`,
-  }),
-  favourite: Joi.boolean(),
-  genre: Joi.string()
-    .valid('comedy', ' history', 'documentary')
-    .required()
-    .messages({
-      'any.only': ` frontend validation error should be a one  of  'comedy', ' history', 'documentary') `,
-    }),
-
-  releaseYear: Joi.string()
-    .regex(/^(19|20)\d{2}$/)
-    .required()
-    .messages({
-      'string.pattern.base': `frontend validation error  year must be  between 1900-2099`,
-      'any.required':
-        'Year should not be empty! check again  if you  added  year',
-    }),
-});
-
 const getAllMovies = async (req, res, next) => {
   // Movie.find() це метод запиту до бази даних
   try {
-    const result = await Movie.find();
+    const result = await Movie.find({});
 
     res.json(result);
   } catch (error) {
@@ -41,17 +13,7 @@ const getAllMovies = async (req, res, next) => {
   }
 };
 const addMovie = async (req, res, next) => {
-  console.log('req.body: ', req.body);
-
-  // дані які пердаються з фрогтенду придодять в req.body ми їх перевіряєм з доп joiSchema
   try {
-    const validateResult = movieAddSchema.validate(req.body);
-    console.log('validateResult: ', validateResult);
-    const { error } = validateResult;
-
-    if (error) throw HttpError(400, error.message);
-    // якщо не буде всіх даних  error === true спрацює HttpError(400, validateResult.messages) і код перерветься спрацює функція обробки помилок
-    //  error.message буде message з схеми валідації
     const result = await Movie.create(req.body);
 
     if (!result) {
@@ -62,6 +24,7 @@ const addMovie = async (req, res, next) => {
     }
     // перед тим як передавати дані в базу треба перевірити чи обєкт який ми передаєм має всі заповнені поля
     // найчастіше використовується бібліотека joi
+    // пернесла валідацію joi в middleware
     // обовязково треба передат на фронтенд статус запиту якщо щось успішно додано це 201 статус
     res.status(201).json(result);
   } catch (error) {
@@ -69,7 +32,47 @@ const addMovie = async (req, res, next) => {
   }
 };
 
+const getMovieByID = async (req, res, next) => {
+  //   //всі динамічні параметри запиту зберігаються в змінній reg.params
+  // console.log('reg.params : ', req.params );
+  const { id } = req.params;
+  // console.log('id: ', id);
+  try {
+    // Movie.findOne метод запиту до бази який повертає не масив обєктів а один обєкт у якого id в базі співпадає з id який передали з фтонтенду
+    // якщо співпадінь немає куігде = null  викидаєм помилку ствтус 400
+    const result = await Movie.findOne({ _id: id });
+    // якщо id буде не правильний то moviesService.getMovieById поверне null (так працює база даних )null це не помилка а нам треба щоб коли id не вірний тобто коли база нічого не знайшла треба повертати помилку
+    if (!result) {
+      // res.status не перриває фннкцію в разі помилки тому треба ставити return щоб код далі не виконувавя коли відповілі з бази немає
+      //return   res.status(404).json({
+      //message:`обєкт з id:${id} не знайдено перевірте чи правильний id `})
+
+      //--variant2 ---
+      // створити помилку самостійно і кикинути її якщо result = null
+      // тоді код переривається і потрапляє в блок catch
+
+      // const error= new Error(`обєкт з id:${id} не знайдено перевірте чи правильний id `);
+      // error.status=404;
+      // throw error
+
+      //--variant3  ---
+      // створити допоміжну функцію helperі і перевикористовувати її
+      throw HttpError(
+        404,
+        `обєкт з id:${id} не знайдено перевірте чи правильний id `
+      );
+    }
+
+    res.json(result);
+  } catch (error) {
+    next(error);
+    //    якщо в параметр next передати error то express буде продовжувати виконувати код і шукати функцію обробник помилок
+    // функцію обробник помилок  це функція яка має 4 аргументи (з документації express)
+  }
+};
+
 export default {
+  getMovieByID,
   getAllMovies,
   addMovie,
 };
