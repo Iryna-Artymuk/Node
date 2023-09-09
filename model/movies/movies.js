@@ -19,7 +19,7 @@ const movieSchema = new Schema(
       type: String,
       required: [true, ' where is director?????'], // поле є обовязковим другий параметр кастомний меседж
     },
-    favourite: {
+    favorite: {
       type: Boolean,
       default: false, // якщо з фротенду значення не передатуть то воно по дефолту буде false
     },

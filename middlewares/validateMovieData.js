@@ -2,14 +2,14 @@ import { HttpError } from '../helpers/index.js';
 import Joi from 'joi'; // бібліотека валідації
 //  ----Joi schema to check data from frontend
 // it is must match mongoose schema
-const movieAddSchema = Joi.object({
+const JoiMovieAddSchema = Joi.object({
   title: Joi.string().required().messages({
     'any.required': ` frontend validation error check again  if you  added   movie name `,
   }),
   director: Joi.string().required().messages({
     'any.required': `frontend validation error check again  if you  added  director`,
   }),
-  favourite: Joi.boolean(),
+  favorite: Joi.boolean(),
   genre: Joi.string()
     .valid('comedy', ' history', 'documentary')
     .required()
@@ -27,13 +27,14 @@ const movieAddSchema = Joi.object({
     }),
 });
 const VadidateMovieData = (req, res, next) => {
-  const validateResult = movieAddSchema.validate(req.body);
+  const validateResult = JoiMovieAddSchema.validate(req.body);
   // console.log('validateResult: ', validateResult);
   const { error } = validateResult;
 
   if (error) throw HttpError(400, error.message);
   // якщо не буде всіх даних  error === true спрацює HttpError(400, validateResult.messages) і код перерветься спрацює функція обробки помилок
   //  error.message буде message з схеми валідації
+  next();
 };
 
 export default VadidateMovieData;

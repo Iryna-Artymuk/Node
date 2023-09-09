@@ -37,26 +37,13 @@ const getMovieByID = async (req, res, next) => {
   // console.log('reg.params : ', req.params );
   const { id } = req.params;
   // console.log('id: ', id);
+  // пред запитом до бази перевіряєм чи id це валідний id в ьшввдуцфк is validId
   try {
     // Movie.findOne метод запиту до бази який повертає не масив обєктів а один обєкт у якого id в базі співпадає з id який передали з фтонтенду
     // якщо співпадінь немає куігде = null  викидаєм помилку ствтус 400
     const result = await Movie.findOne({ _id: id });
-    // якщо id буде не правильний то moviesService.getMovieById поверне null (так працює база даних )null це не помилка а нам треба щоб коли id не вірний тобто коли база нічого не знайшла треба повертати помилку
+
     if (!result) {
-      // res.status не перриває фннкцію в разі помилки тому треба ставити return щоб код далі не виконувавя коли відповілі з бази немає
-      //return   res.status(404).json({
-      //message:`обєкт з id:${id} не знайдено перевірте чи правильний id `})
-
-      //--variant2 ---
-      // створити помилку самостійно і кикинути її якщо result = null
-      // тоді код переривається і потрапляє в блок catch
-
-      // const error= new Error(`обєкт з id:${id} не знайдено перевірте чи правильний id `);
-      // error.status=404;
-      // throw error
-
-      //--variant3  ---
-      // створити допоміжну функцію helperі і перевикористовувати її
       throw HttpError(
         404,
         `обєкт з id:${id} не знайдено перевірте чи правильний id `
@@ -66,13 +53,69 @@ const getMovieByID = async (req, res, next) => {
     res.json(result);
   } catch (error) {
     next(error);
-    //    якщо в параметр next передати error то express буде продовжувати виконувати код і шукати функцію обробник помилок
-    // функцію обробник помилок  це функція яка має 4 аргументи (з документації express)
   }
 };
 
+const updateMovie = async (req, res, next) => {
+  //  В  vadidateMovieData MIDDELWARE ПЕРЕВІРЯЄМ ТІЛО ЗАПИТУ ЧИ ВІДПОВІДАЄ СХЕМІ ВАЛАДАЦІЇ
+  //  В  isValidId MIDDELWARE ПЕРЕВІРЯЄМ XB ID ЦЕ ID
+
+  const { id } = req.params;
+  try {
+    //ВІДПРАВЛЯЄМ ЗАПИТ ДО БАЗИ ДАНИХ
+    const result = await Movie.findOneAndUpdate(
+      { _id: id }, // id
+      { ...req.body }, // те що треба обновити
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
+    // { new: true } база повертає оновлений обєккт
+    //   runValidators: true, включає mongoose валідацію за замовчуванням для методу findByIdAndUpdate вона відсутня
+
+    // ЯКЩО ВІДПОВІДЬ З БЕКЕНДУ NULL СТВОРЮЄМ І ВИКИДАЄМ ПОМИЛКУ EXPRESS ПЕРХОДИТЬ В ФУНКЦІЮ ОБРОБКИ ПОМИЛОК
+    if (!result) {
+      throw HttpError(
+        404,
+        `обєкт з id:${id} не знайдено перевірте чи правильний id `
+      );
+    }
+    // ЯКЩО ВІДПОВІДЬ З БЕКЕНДУ Є,  ВІДПРАВЛЯЄМ ВІДПОВІДЬ НА ФРОНТЕНД
+    res.json(result);
+  } catch (error) {
+    next(error);
+  }
+};
+
+const deleteMovie = async (req, res, next) => {
+  // ЩОБ ВИДАЛИТИ ОБЄКТ З БАЗИ ТРЕБА  В  MONGOOSE MODEL ВИКЛИКАТИ findByIdAndDelete(id);
+  const { id } = req.params;
+  try {
+    const result = await Movie.findByIdAndDelete(id);
+    // ЯКЩО ВІДПОВІДЬ З БЕКЕНДУ NULL СТВОРЮЄМ І ВИКИДАЄМ ПОМИЛКУ EXPRESS ПЕРХОДИТЬ В ФУНКЦІЮ ОБРОБКИ ПОМИЛОК
+    if (!result) {
+      throw HttpError(
+        404,
+        `обєкт з id:${id} не знайдено перевірте чи правильний id `
+      );
+    }
+    // ЯКЩО ТРЕБА ПОВЕРТУТИ СТАТУС 204 І   res.status(204).json(result) НЕ ПРАЦЮЄ БО STATUS 204 НЕ МАЄ BODY
+    // ТОМУ МОЖНА ПИСАТИ
+    // res.status(204).send()
+
+    res.json({
+      message: 'Delete success',
+    });
+    console.log('result: ', result);
+  } catch (error) {
+    next(error);
+  }
+};
 export default {
   getMovieByID,
   getAllMovies,
   addMovie,
+  updateMovie,
+  deleteMovie,
 };
