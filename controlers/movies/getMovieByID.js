@@ -1,7 +1,7 @@
 import Movie from '../../model/movies/movies.js';
 
 import { HttpError } from '../../helpers/index.js';
-export default getMovieByID = async (req, res, next) => {
+const getMovieByID = async (req, res, next) => {
   //   //всі динамічні параметри запиту зберігаються в змінній reg.params
   // console.log('reg.params : ', req.params );
   const { id } = req.params;
@@ -24,3 +24,4 @@ export default getMovieByID = async (req, res, next) => {
     next(error);
   }
 };
+export default getMovieByID;

@@ -2,7 +2,7 @@ import Movie from '../../model/movies/movies.js';
 
 import { HttpError } from '../../helpers/index.js';
 
-export default addMovie = async (req, res, next) => {
+const addMovie = async (req, res, next) => {
   try {
     const result = await Movie.create(req.body);
 
@@ -21,3 +21,4 @@ export default addMovie = async (req, res, next) => {
     next(error);
   }
 };
+export default addMovie ;

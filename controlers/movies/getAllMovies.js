@@ -1,5 +1,7 @@
 import Movie from '../../model/movies/movies.js';
-export default getAllMovies = async (req, res, next) => {
+
+
+const getAllMovies = async (req, res, next) => {
   // Movie.find() це метод запиту до бази даних
   try {
     const result = await Movie.find({});
@@ -9,3 +11,5 @@ export default getAllMovies = async (req, res, next) => {
     next(error);
   }
 };
+
+export default getAllMovies;

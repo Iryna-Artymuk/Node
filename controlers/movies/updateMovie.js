@@ -2,7 +2,7 @@ import Movie from '../../model/movies/movies.js';
 
 import { HttpError } from '../../helpers/index.js';
 
-export default updateMovie = async (req, res, next) => {
+const updateMovie = async (req, res, next) => {
   //  В  vadidateMovieData MIDDELWARE ПЕРЕВІРЯЄМ ТІЛО ЗАПИТУ ЧИ ВІДПОВІДАЄ СХЕМІ ВАЛАДАЦІЇ
   //  В  isValidId MIDDELWARE ПЕРЕВІРЯЄМ XB ID ЦЕ ID
 
@@ -33,3 +33,4 @@ export default updateMovie = async (req, res, next) => {
     next(error);
   }
 };
+export default updateMovie;

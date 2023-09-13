@@ -2,7 +2,7 @@ import Movie from '../../model/movies/movies.js';
 
 import { HttpError } from '../../helpers/index.js';
 
-export default deleteMovie = async (req, res, next) => {
+const deleteMovie = async (req, res, next) => {
   // ЩОБ ВИДАЛИТИ ОБЄКТ З БАЗИ ТРЕБА  В  MONGOOSE MODEL ВИКЛИКАТИ findByIdAndDelete(id);
   const { id } = req.params;
   try {
@@ -26,3 +26,5 @@ export default deleteMovie = async (req, res, next) => {
     next(error);
   }
 };
+
+export default deleteMovie;
