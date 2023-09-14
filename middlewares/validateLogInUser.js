@@ -21,7 +21,7 @@ const validateLogInUser = (req, res, next) => {
   const { error } = validateResult;
 
   if (error) throw HttpError(400, error.message);
-  // якщо не буде всіх даних  error === true спрацює HttpError(400, validateResult.messages) і код перерветься спрацює функція обробки помилок
+  // якщо не буде всіх даних  error === true спрацює HttpError(400, validateResult.messages) і код перерветься спрацює функція обробки помилок app.js
   //  error.message буде message з схеми валідації
   next();
 };

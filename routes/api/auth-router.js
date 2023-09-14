@@ -5,12 +5,12 @@ import validateLogInUser from '../../middlewares/validateLogInUser.js';
 import validateRegisterUser from '../../middlewares/validateRegisterUser.js';
 
 // запит до бази
-import { userRegister } from '../../controlers/auth/index.js';
+import { userLogIn, userRegister } from '../../controlers/auth/index.js';
 
 // створює роутер
 const authRouter = express.Router();
 
 authRouter.post('/register', validateRegisterUser, userRegister);
-authRouter.get('/login', validateLogInUser, userRegister);
+authRouter.post('/login', validateLogInUser,  userLogIn);
 
 export default authRouter;
