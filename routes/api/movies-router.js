@@ -2,34 +2,48 @@ import express from 'express';
 
 const moviesRouter = express.Router(); // створює роутер
 
-import { getAllMovies,getMovieByID,  addMovie,deleteMovie, updateMovie} from '../../controlers/movies/index.js';
-
-import { isValidId } from '../../middlewares/index.js';
 import {
+  getAllMovies,
+  getMovieByID,
+  addMovie,
+  deleteMovie,
+  updateMovie,
+} from '../../controlers/movies/index.js';
+
+import { authentication, isValidId } from '../../middlewares/index.js';
+import { 
   vadidateMovieData,
   vadidateFavorite,
 } from '../../middlewares/index.js';
 
-moviesRouter.get('/', getAllMovies);
+moviesRouter.get('/', authentication, getAllMovies);
 
-moviesRouter.get('/:id', isValidId, getMovieByID);
+moviesRouter.get(
+  '/:id',
+  authentication,
+  authentication,
+  isValidId,
+  getMovieByID
+);
 
-moviesRouter.post('/', vadidateMovieData, addMovie);
+moviesRouter.post('/', authentication, vadidateMovieData, addMovie);
 
 moviesRouter.put(
   '/:id',
+  authentication,
   isValidId,
   vadidateMovieData,
- updateMovie
+  updateMovie
 );
 
 moviesRouter.patch(
   '/:id/favorite',
+  authentication,
   isValidId,
   vadidateFavorite,
-updateMovie
+  updateMovie
 );
-moviesRouter.delete('/:id',deleteMovie);
+moviesRouter.delete('/:id', authentication, deleteMovie);
 
 export default moviesRouter;
 // імпортуєм в app.js і викорстовуєм в midlewear  app.use("/api/movies", moviesRouter);

@@ -4,7 +4,7 @@ import dotenv from 'dotenv';
 
 dotenv.config(); // додає змінні з файлу env до глобального обєкту process.env
 const { JWT_SECRET_KEY } = process.env;
-console.log('JWT_SECRET_KEY : ', JWT_SECRET_KEY);
+
 import User from '../../model/users/Users.js';
 
 import { HttpError } from '../../helpers/index.js';
