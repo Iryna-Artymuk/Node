@@ -11,7 +11,7 @@ const JoiMovieAddSchema = Joi.object({
   }),
   favorite: Joi.boolean(),
   genre: Joi.string()
-    .valid('comedy', ' history', 'documentary')
+    .valid('comedy', 'history', 'documentary')
     .required()
     .messages({
       'any.only': ` frontend validation error should be a one  of  'comedy', ' history', 'documentary') `,

@@ -3,8 +3,14 @@ import Movie from '../../model/movies/movies.js';
 import { HttpError } from '../../helpers/index.js';
 
 const addMovie = async (req, res, next) => {
+  const { user } = req;
+  // console.log('user: ', user);
+  const { _id: ownerId } = user;
+  console.log('userId: ', userId);
+
   try {
-    const result = await Movie.create(req.body);
+    const result = await Movie.create({ ...req.body, owner: ownerId });
+    console.log('result: ', result);
 
     if (!result) {
       throw HttpError(
@@ -21,4 +27,4 @@ const addMovie = async (req, res, next) => {
     next(error);
   }
 };
-export default addMovie ;
+export default addMovie;

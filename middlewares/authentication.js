@@ -16,7 +16,7 @@ const authentication = async (req, res, next) => {
 
     //приходить рядок в якому перше слово bearer друге токен щоб розділити використовуємо деструктуризацію рядка
 
-    const { authorization =""} = req.headers;
+    const { authorization = '' } = req.headers;
 
     const [bearer, token] = authorization?.split(' ');
     //   console.log('token: ', token);
@@ -34,7 +34,11 @@ const authentication = async (req, res, next) => {
       if (!existUser) {
         return next(HttpError(401), 'User not found ');
       }
-      // якщо користувач є пердаєм управління дал
+      // якщо користувач є пердаєм управління далі
+      // додаємо користувача в глобальний обєкт req шоб в контролерах можна булло його використати і розрізняти який саме користувач додав чи видалив фільм
+      req.user = existUser;
+    //   console.log('existUser: ', existUser);
+
       next();
     } catch (error) {
       next(HttpError(401));

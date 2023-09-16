@@ -25,13 +25,18 @@ const movieSchema = new Schema(
     },
     genre: {
       type: String,
-      enum: ['comedy', ' history', 'documentary'], // значення має відповідати одному з значкнь з масиву
+      enum: ['comedy', 'history', 'documentary'], // значення має відповідати одному з значкнь з масиву
       required: true, // поле є обовязковим
     },
     releaseYear: {
       type: String,
       match: /^(19|20)\d{2}$/, // значення має відповідати регуряреому виразу  years 1900-2099
       required: true, // поле є обовязковим
+    },
+    owner: {
+      type: Schema.Types.ObjectId,
+      ref: 'user', // повязує колекції між собою
+      required: true,
     },
   },
   { versionKey: false, timestamps: true }
