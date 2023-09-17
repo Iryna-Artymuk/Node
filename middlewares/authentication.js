@@ -23,26 +23,28 @@ const authentication = async (req, res, next) => {
     if (!bearer === 'Bearer') return next(HttpError(401));
 
     // перевіряєм чи токен валідний
-    try {
-      const payload = jwt.verify(token, JWT_SECRET_KEY); //якщо токен валідний в відповідь прийде {}payload який ми передавали в токені можем деструктуризувати ці дані, ми в login в токені шифрували id
-      console.log(' payload : ', payload);
 
-      const { id } = payload;
+    const payload = jwt.verify(token, JWT_SECRET_KEY); //якщо токен валідний в відповідь прийде {}payload який ми передавали в токені можем деструктуризувати ці дані, ми в login в токені шифрували id
+    console.log(' payload : ', payload);
 
-      // перевіряєм чи є в базі користувач з таким id
-      const existUser = await User.findById(id);
-      if (!existUser) {
-        return next(HttpError(401), 'User not found ');
-      }
-      // якщо користувач є пердаєм управління далі
-      // додаємо користувача в глобальний обєкт req шоб в контролерах можна булло його використати і розрізняти який саме користувач додав чи видалив фільм
-      req.user = existUser;
-    //   console.log('existUser: ', existUser);
+    const { id } = payload;
 
-      next();
-    } catch (error) {
-      next(HttpError(401));
+    // перевіряєм чи є в базі користувач з таким id
+    if (!id) {
+      throw HttpError(401, 'User not found ');
     }
+
+    const existUser = await User.findById(id);
+    // console.log('existUser: ', existUser);
+    // якщо немає такого користувача або в нього немає токену вик. помилку
+    if (!existUser || !existUser.token) { 
+      throw HttpError(401);
+    }
+    req.user = existUser; // створюємо ключ user в обєкті request
+
+    next();
+    // якщо користувач є пердаєм управління далі
+    // додаємо користувача в глобальний обєкт req шоб в контролерах можна булло його використати і розрізняти який саме користувач додав чи видалив фільм
   } catch (error) {
     next(error);
   }

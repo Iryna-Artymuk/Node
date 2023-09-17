@@ -14,7 +14,7 @@ const userLogIn = async (req, res, next) => {
     // первіряємо чи є користувач в базі
     const user = await User.findOne({ email });
     if (!user) throw HttpError(401, 'User with this emais  not found ');
-    console.log('userID: ', user._id);
+    // console.log('userID: ', user._id);
 
     // якщо користувач true порівнюємо пароль з бази з тим що надав фротненд
 
@@ -26,8 +26,9 @@ const userLogIn = async (req, res, next) => {
 
     // якщо пароль вірний з бази берем ID користувача і використовуємо його для створення  payload і токену
     // щоб створити  токен треба викликати метод sing і передати payload i секретний ключ для шифрування підпису
-    const payload = { id: user._id };
+    const payload = { id: user._id }; 
     const token = jwt.sign(payload, JWT_SECRET_KEY, { expiresIn: '23h' });
+    await User.findByIdAndUpdate(user._id, { token }); // якщо користувач існує і його токен валіднй оновлюєм токен в базі
     res.json({ token });
   } catch (error) {
     next(error);

@@ -6,7 +6,7 @@ const addMovie = async (req, res, next) => {
   const { user } = req;
   // console.log('user: ', user);
   const { _id: ownerId } = user;
-  console.log('userId: ', userId);
+  console.log('userId: ', ownerId);
 
   try {
     const result = await Movie.create({ ...req.body, owner: ownerId });
