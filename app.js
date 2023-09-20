@@ -15,7 +15,7 @@ app.use(express.json()); // перевіряє всі запити якщо в h
 
 // app.use(express.static('public'));
 
-app.use(express.static(path.resolve('public', 'images')));
+app.use(express.static(path.resolve('public', 'images'))); // з шляху до файлу треба прибрати 'public', 'images'
 // при запиті на адресу "/api/movies" фонкції обробники взяти з цьго обєкту moviesRouter
 app.use('/api/movies', moviesRouter);
 app.use('/api/auth', authRouter);

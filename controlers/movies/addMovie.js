@@ -12,7 +12,7 @@ const addMovie = async (req, res, next) => {
     // console.log('user: ', user);
     const { _id: ownerId } = user;
     const { path: oldPath, filename } = req.file; // file створила мідлвара multer
-    const postersPath = path.resolve('public', 'posters');
+    const postersPath = path.resolve('public', 'images', 'posters');
     const newPath = path.join(postersPath, filename);
     await fs.rename(oldPath, newPath);
     const poster = path.join('posters', filename); // шлях до файлу який ми будем зберігати в БД він повинен бути відносно серверу
