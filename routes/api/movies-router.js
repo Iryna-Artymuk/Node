@@ -10,8 +10,8 @@ import {
   updateMovie,
 } from '../../controlers/movies/index.js';
 
-import { authentication, isValidId } from '../../middlewares/index.js';
-import { 
+import { authentication, isValidId, upload } from '../../middlewares/index.js';
+import {
   vadidateMovieData,
   vadidateFavorite,
 } from '../../middlewares/index.js';
@@ -26,7 +26,14 @@ moviesRouter.get(
   getMovieByID
 );
 
-moviesRouter.post('/', authentication, vadidateMovieData, addMovie);
+moviesRouter.post(
+  '/',
+  authentication,
+
+  upload.single('poster'),
+  vadidateMovieData,
+  addMovie
+);
 
 moviesRouter.put(
   '/:id',

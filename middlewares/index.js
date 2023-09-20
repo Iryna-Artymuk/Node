@@ -5,3 +5,5 @@ export { default as validateRegisterUser } from './validateRegisterUser.js';
 export { default as validateLogInUser } from './validateLogInUser.js';
 
 export { default as authentication } from './authentication.js';
+
+export { default as upload } from './upload.js';

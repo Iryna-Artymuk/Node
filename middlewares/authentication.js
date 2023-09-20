@@ -23,7 +23,7 @@ const authentication = async (req, res, next) => {
     // перевіряєм чи токен валідний
 
     const payload = jwt.verify(token, JWT_SECRET_KEY); //якщо токен валідний в відповідь прийде {}payload який ми передавали в токені можем деструктуризувати ці дані, ми в login в токені шифрували id
-    console.log(' payload : ', payload);
+    // console.log(' payload : ', payload);
 
     const { id } = payload;
 

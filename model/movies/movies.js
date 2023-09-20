@@ -33,6 +33,10 @@ const movieSchema = new Schema(
       match: /^(19|20)\d{2}$/, // значення має відповідати регуряреому виразу  years 1900-2099
       required: true, // поле є обовязковим
     },
+    poster: {
+      type: String,
+      required: true,
+    },
     owner: {
       type: Schema.Types.ObjectId,
       ref: 'user', // повязує колекції між собою
