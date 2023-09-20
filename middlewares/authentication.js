@@ -1,6 +1,3 @@
-// ця фннкція буде перевіряти токет який фронтенд буде прикріплювати в запиті на приватні маршрути якщо токен валідний буде наланий доступації  до контролерів якщо ні повернеться помилка аворизації
-
-// вставляєм цю міделвару в той маршрут який ми хочем зробити приватними
 
 import jwt from 'jsonwebtoken'; // npm pkg який створював токен
 import { HttpError } from '../helpers/index.js';
@@ -17,6 +14,7 @@ const authentication = async (req, res, next) => {
     //приходить рядок в якому перше слово bearer друге токен щоб розділити використовуємо деструктуризацію рядка
 
     const { authorization = '' } = req.headers;
+    
 
     const [bearer, token] = authorization?.split(' ');
     //   console.log('token: ', token);
