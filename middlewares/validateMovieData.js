@@ -25,7 +25,7 @@ const JoiMovieAddSchema = Joi.object({
       'any.required':
         'Year should not be empty! check again  if you  added  year',
     }),
-  poster: Joi.string(),
+
 });
 const VadidateMovieData = (req, res, next) => {
   const validateResult = JoiMovieAddSchema.validate(req.body);
