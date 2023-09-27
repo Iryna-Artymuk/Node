@@ -30,7 +30,7 @@ moviesRouter.post(
   '/',
   authentication,
 
-  upload.single('poster'),
+  upload.single('poster'), // from wich fild from form data take file 
   vadidateMovieData,
   addMovie
 );
