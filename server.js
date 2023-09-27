@@ -19,7 +19,8 @@ mongoose
   .connect(DB_HOST)
   .then(() =>
     app.listen(4000, () =>
-      console.log('Server running sucsesfully connect to DB')
+   
+      console.log('Server running  port 4000, sucsesfully connect to DB')
     )
   )
   .catch(error => {

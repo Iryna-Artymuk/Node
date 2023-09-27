@@ -2,34 +2,55 @@ import express from 'express';
 
 const moviesRouter = express.Router(); // створює роутер
 
-import movieСontrolers from '../../controlers/movie_controlers.js';
+import {
+  getAllMovies,
+  getMovieByID,
+  addMovie,
+  deleteMovie,
+  updateMovie,
+} from '../../controlers/movies/index.js';
 
-import { isValidId } from '../../middlewares/index.js';
+import { authentication, isValidId, upload } from '../../middlewares/index.js';
 import {
   vadidateMovieData,
   vadidateFavorite,
 } from '../../middlewares/index.js';
 
-moviesRouter.get('/', movieСontrolers.getAllMovies);
+moviesRouter.get('/', authentication, getAllMovies);
 
-moviesRouter.get('/:id', isValidId, movieСontrolers.getMovieByID);
+moviesRouter.get(
+  '/:id',
+  authentication,
+  authentication,
+  isValidId,
+  getMovieByID
+);
 
-moviesRouter.post('/', vadidateMovieData, movieСontrolers.addMovie);
+moviesRouter.post(
+  '/',
+  authentication,
+
+  upload.single('poster'), // from wich fild from form data take file 
+  vadidateMovieData,
+  addMovie
+);
 
 moviesRouter.put(
   '/:id',
+  authentication,
   isValidId,
   vadidateMovieData,
-  movieСontrolers.updateMovie
+  updateMovie
 );
 
 moviesRouter.patch(
   '/:id/favorite',
+  authentication,
   isValidId,
   vadidateFavorite,
-  movieСontrolers.updateMovie
+  updateMovie
 );
-moviesRouter.delete('/:id', movieСontrolers.deleteMovie);
+moviesRouter.delete('/:id', authentication, deleteMovie);
 
 export default moviesRouter;
 // імпортуєм в app.js і викорстовуєм в midlewear  app.use("/api/movies", moviesRouter);
