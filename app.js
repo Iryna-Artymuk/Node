@@ -4,6 +4,7 @@ import cors from 'cors';
 import path from 'path';
 import moviesRouter from './routes/api/movies-router.js';
 import authRouter from './routes/api/auth-router.js';
+import sendEmail from './helpers/sendEmail.js';
 
 const app = express(); // створює роутер
 
@@ -30,4 +31,12 @@ app.use((err, req, res, next) => {
   res.status(status).json({ message });
 });
 
+const testData = {
+  to: ' irynaartymuk@gmail.com', // list of receivers
+  subject: 'Hello from Node.js ', // Subject line
+  text: ' Test email', // plain text body
+  html: '<b>Hello world?</b>  <h1> Test email from GoIT Node.js </h1> <p> Nodemailer - це єдиний модуль з нульовими залежностями для Node.js, призначений для надсилання електронних листів. Його основні функції включають (але не обмежуються ними) незалежність від платформи безпека, зокрема, доставка електронної пошти з TLS/STARTTLS та DKIM автентифікацією електронної пошти Підтримка Unicode HTML-контент та вкладені зображенн різні транспортні методи, крім підтримки SMTP. </p>', // html body
+};
+
+sendEmail(testData);
 export default app;
