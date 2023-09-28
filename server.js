@@ -13,18 +13,18 @@ import dotenv from 'dotenv';
 // в Environment Variables треба додати ключ  DB_HOST і значення строка підключення
 // process.env.DB_HOST
 dotenv.config(); // додає змінні з файлу env до глобального обєкту process.env
-const { DB_HOST } = process.env;
+const { DB_HOST, PORT } = process.env;
 
 mongoose
   .connect(DB_HOST)
-  .then(() =>
-    app.listen(4000, () =>
-   
-      console.log('Server running  port 4000, sucsesfully connect to DB')
-    )
-  )
+  .then(() => {
+    app.listen(PORT, () => {
+      console.log(`Server running  on ${PORT}, sucsesfully connect to DB`);
+    });
+  })
   .catch(error => {
-    console.log('can not connect to data bace ');
+    console.log('error: ', error.message);
+    console.log('can not connect to data base ');
     process.exit(1); // глобальний обєкт який закриває всі запущені процеси
   });
 

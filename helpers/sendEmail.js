@@ -4,8 +4,8 @@ import nodemailer from 'nodemailer';
 import dotenv from 'dotenv';
 dotenv.config();
 const { EMAIL_FROM, EMAIL_PASSWORD } = process.env;
-console.log('EMAIL_PASSWORD : ', EMAIL_PASSWORD);
-console.log('EMAIL_FROM: ', EMAIL_FROM);
+// console.log('EMAIL_PASSWORD : ', EMAIL_PASSWORD);
+// console.log('EMAIL_FROM: ', EMAIL_FROM);
 
 const transporter = nodemailer.createTransport({
   host: 'smtp.ukr.net',
@@ -36,7 +36,7 @@ async function sendEmail(data) {
       from: EMAIL_FROM, // sender address
     });
 
-    console.log('Message sent: %s');
+    console.log(`Message sent: to ${data.email}`);
     return email;
   } catch (error) {
     console.log('error: ', error);

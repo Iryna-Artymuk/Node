@@ -1,8 +1,13 @@
 import bcrypt from 'bcryptjs';
-
+import { nanoid } from 'nanoid';
+import dotenv from 'dotenv';
 import User from '../../model/users/Users.js';
 
-import { HttpError } from '../../helpers/index.js';
+import { HttpError, sendEmail } from '../../helpers/index.js';
+dotenv.config();
+const { BASE_URL } = process.env;
+console.log(' BASE_URL: ', BASE_URL);
+
 const userRegister = async (req, res, next) => {
   const { email, password } = req.body;
   try {
@@ -20,8 +25,22 @@ const userRegister = async (req, res, next) => {
 
     const hashPassword = await bcrypt.hash(password, salt);
     // console.log('hashPassword : ', hashPassword);
-    const newUser = await User.create({ ...req.body, password: hashPassword });
 
+    const verificationCode = nanoid();
+    const newUser = await User.create({
+      ...req.body,
+      password: hashPassword,
+      verificationCode,
+    });
+
+    const verifyEmailLink = {
+      to: ' irynaartymuk@gmail.com', // list of receivers
+      subject: 'Hello from Node.js ', // Subject line
+      text: ' Plese verify your  email', // plain text body
+      html: `<h1> Register to my  movies app </h1> <a href="${BASE_URL}/api/auth/users/verify/${verificationCode}">  Plese click to  verify your  email    </a>`, //  унікальна адреса роут на бекенді
+    };
+
+    sendEmail(verifyEmailLink);
     res.status(201).json({
       name: newUser.name,
       email: newUser.email,

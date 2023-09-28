@@ -28,16 +28,23 @@ const userSchema = new Schema(
       required: [true, ' where is   password'], // поле є обовязковим другий параметр кастомний меседж
       minlength: 6,
     },
-    token:{
+    token: {
       type: String,
-    }
+    },
+    verify: {
+      type: Boolean,
+      default: false,
+    },
+    verificationCode: {
+      type: String,
+      default: '',
+    },
   },
   { versionKey: false, timestamps: true }
 );
 
-
 //---ПОМИЛКА --  якщо mongoose повертає помилку він не присвою помилці статус тому всі помилки мають статус 500 і не будуть зрозумілі на фронтенді
-//---РІШЕННЯ---  створити mongoose hook який буде розрізняти помилки і передавати вірний статус і повідомлення 
+//---РІШЕННЯ---  створити mongoose hook який буде розрізняти помилки і передавати вірний статус і повідомлення
 // це функція яка буде викликана перед тим як помилка перейде в блок catch ій присвоїться статус і спрацює функція обробки помилок з app.js
 
 userSchema.post('save', handelSchemsErrorStatus);
