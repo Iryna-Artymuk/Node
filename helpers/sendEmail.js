@@ -2,6 +2,8 @@
 
 import nodemailer from 'nodemailer';
 import dotenv from 'dotenv';
+import  Email from 'email-templates';
+import path from 'path'
 dotenv.config();
 const { EMAIL_FROM, EMAIL_PASSWORD } = process.env;
 // console.log('EMAIL_PASSWORD : ', EMAIL_PASSWORD);
@@ -43,4 +45,6 @@ async function sendEmail(data) {
   }
 }
 
+
 export default sendEmail;
+
