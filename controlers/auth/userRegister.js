@@ -14,7 +14,7 @@ const { BASE_URL } = process.env;
 console.log(' BASE_URL: ', BASE_URL);
 
 const userRegister = async (req, res, next) => {
-  const { email, password, name } = req.body;
+  const { email, password } = req.body;
   try {
     const user = await User.findOne({ email });
     console.log('user : ', user);
@@ -31,8 +31,6 @@ const userRegister = async (req, res, next) => {
 
     const hashPassword = await bcrypt.hash(password, salt);
     // console.log('hashPassword : ', hashPassword);
-
-
 
     // ------------verification email ----------------
     const verificationCode = nanoid();
@@ -54,18 +52,18 @@ const userRegister = async (req, res, next) => {
       username: newUser.name,
       verificationLink: `${BASE_URL}/api/auth/users/verify/${verificationCode}`,
     };
-       // add context to dynamic variables
+    // add context to dynamic variables
     const htmlToSend = template(replacements);
 
     const dataToSend = {
-      to: ' irynaartymuk@gmail.com', // list of receivers
+      to: newUser.email, // list of receivers
       subject: 'verify your email ', // Subject line
       text: ' Plese verify your email', // plain text body
       html: htmlToSend,
     };
     sendEmail(dataToSend);
 
-    // send response to frontend 
+    // send response to frontend
     res.status(201).json({
       name: newUser.name,
       email: newUser.email,

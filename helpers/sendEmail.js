@@ -38,7 +38,7 @@ async function sendEmail(data) {
       from: EMAIL_FROM, // sender address
     });
 
-    console.log(`Message sent: to ${data.email}`);
+    console.log(`Message sent: to ${data.to}`);
     return email;
   } catch (error) {
     console.log('error: ', error);

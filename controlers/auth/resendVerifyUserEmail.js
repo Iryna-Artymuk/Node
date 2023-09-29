@@ -37,7 +37,7 @@ const resendVerifyUserEmail = async (req, res, next) => {
     const htmlToSend = template(replacements);
 
     const dataToSend = {
-      to: ' irynaartymuk@gmail.com', // list of receivers
+      to: email, // list of receivers
       subject: 'verify your email ', // Subject line
       text: ' Plese verify your email', // plain text body
       html: htmlToSend,

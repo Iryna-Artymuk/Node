@@ -12,7 +12,7 @@ const verifyUserEmail = async (req, res, next) => {
     console.log(' user: ', user);
 
     if (!user) {
-      throw HttpError(404, ` user not found can't verify unexist user`);
+      throw HttpError(404, ` email already verify or  user not exist`);
     }
     // якщо користувач є оновюємо поле verify
     await User.findOneAndUpdate(user._id, {
